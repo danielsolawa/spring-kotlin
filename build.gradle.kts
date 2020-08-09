@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.springframework.boot.gradle.tasks.bundling.BootJar
 
 plugins {
     id("org.springframework.boot") version "2.3.2.RELEASE"
@@ -7,8 +8,11 @@ plugins {
     kotlin("plugin.spring") version "1.3.72"
     kotlin("plugin.jpa") version "1.3.72"
     kotlin("plugin.allopen") version "1.3.61"
-
 }
+
+
+
+
 
 
 allOpen {
@@ -17,9 +21,13 @@ allOpen {
     annotation("javax.persistence.MappedSuperclass")
 }
 
+
+
+
 group = "com.danielsolawa"
 version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_11
+
 
 repositories {
     mavenCentral()
@@ -37,6 +45,13 @@ dependencies {
     }
 }
 
+
+tasks.getByName<BootJar>("bootJar") {
+    archiveClassifier.set("boot")
+    archiveBaseName.set("app")
+    relativePath("docker")
+}
+
 tasks.withType<Test> {
     useJUnitPlatform()
 }
@@ -47,3 +62,9 @@ tasks.withType<KotlinCompile> {
         jvmTarget = "11"
     }
 }
+
+
+
+
+
+
